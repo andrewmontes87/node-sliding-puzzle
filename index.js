@@ -36,12 +36,8 @@ function getPuzzleJSON(puzzle) {
   var result =  '';
   result = reverseString(puzzle);
 
-  return puzzle;  
+  return result;  
 }
 
-// HELPER TRANSFORMATION FUNCTION
-function getNaturalDate(date) {
-  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December'];
- 
-  return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-}
+
+
