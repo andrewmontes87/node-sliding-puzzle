@@ -1,7 +1,11 @@
 import express from 'express';
- 
+import { getPuzzleJSON } from './AStar/AStar'; 
+
 export const app = express();
  
+app.get('/', (request, response) => {
+    response.status(200).send('Send a puzzle pls!');
+});
  
 // microservice path
 app.get('/:puzzle', (request, response) => {
@@ -11,19 +15,4 @@ app.get('/:puzzle', (request, response) => {
   console.log(puzzle);
   response.json(getPuzzleJSON(puzzle));
 });
-
-
-function reverseString(str) {
-  if (str === "")
-    return "";
-  else
-    return reverseString(str.substr(1)) + str.charAt(0);
-}
-
-function getPuzzleJSON(puzzle) {
-  let result =  '';
-  result = reverseString(puzzle);
-
-  return result;  
-}
 
