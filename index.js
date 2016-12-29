@@ -25,40 +25,23 @@ app.listen(PORT, function() {
 });
 
 
-// FOR NOW DO A TIMESTAMP
-function getPuzzleJSON(timestamp) {
-	// First, we handle the unix timestamps. Path parameters come in as text
-	// rather than numbers, so we'll attempt to parse them.
-	var result = {
-		unix: null,
-		natural: null
-	};
- 
-	var date;
-	if (!isNaN(parseInt(timestamp))) {
-		// This means that the parsed integer is NOT a
-		// NaN (not a number) value, in other words: it's a valid number.
-		date = new Date(parseInt(timestamp));
-	} else {
-		// Timestamp is not a valid number, we'll create a Date object
-		// and then check if is valid before we return it
-		date = new Date(timestamp);
-	}
- 
-	if (!isNaN(date.getTime())) {
-		// Date.getTime() returns the unix timestamp,
-		// if it where an invalid date, this would be NaN
-		result.unix = date.getTime();
-		result.natural = getNaturalDate(date);
-	}
- 
-	// We return the value, whatever it may be.
-	return result;	
+function reverseString(str) {
+  if (str === "")
+    return "";
+  else
+    return reverseString(str.substr(1)) + str.charAt(0);
+}
+
+function getPuzzleJSON(puzzle) {
+  var result =  '';
+  result = reverseString(puzzle);
+
+  return puzzle;  
 }
 
 // HELPER TRANSFORMATION FUNCTION
 function getNaturalDate(date) {
-	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December'];
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Obtober', 'November', 'December'];
  
-	return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+  return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 }
