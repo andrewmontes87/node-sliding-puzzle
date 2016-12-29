@@ -26,7 +26,7 @@ app.listen(PORT, function() {
 
 
 // FOR NOW DO A TIMESTAMP
-function getPuzzleJSON(puzzle) {
+function getPuzzleJSON(timestamp) {
 	// First, we handle the unix timestamps. Path parameters come in as text
 	// rather than numbers, so we'll attempt to parse them.
 	var result = {
