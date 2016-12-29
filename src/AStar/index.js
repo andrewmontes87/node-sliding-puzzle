@@ -15,11 +15,12 @@ import AStar from './AStar';
 // - return astar.path
 
 export function getPuzzleJSON(puzzleString) {
-  const dim = findDimensions(puzzleString);
+  const puzzleFlat = formatStringInputAs1DMatrix(puzzleString);
+  const dim = findDimensions(puzzleFlat);
   if (!validateDimensions(dim)) {
     return 'error: pls submit a properly formatted 3x3, 4x4, or 5x5 puzzle';
   } else {
-    const puzzleBoard = formatStringInputAs2DMatrix(puzzleString);
+    const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
     const empty = findEmptyPiece(puzzleBoard, dim);
     const solutionBoard = buildSolutionMatrix(dim);
 
@@ -70,21 +71,24 @@ function validateDimensions(dim) {
 }
 
 // find the dimensions of a submitted puzzle
-function findDimensions(puzzleString) {
-  const flat = puzzleString.split(',')
-  const result = Math.sqrt(flat.length);
+function findDimensions(puzzleFlat) {
+  const result = Math.sqrt(puzzleFlat.length);
   return validateDimensions(result);
 }
 
-// helper to format posted puzzle string
-function formatStringInputAs2DMatrix(puzzleString, dim) {
-  const flat = puzzleString.split(',')
-  let target = [];
+function formatStringInputAs1DMatrix(puzzleString) {
+  return puzzleString.split(',').map( (item) => {
+    return parseInt(item);
+  });
+}
 
+// helper to format posted puzzle string
+function formatStringInputAs2DMatrix(puzzleFlat, dim) {
+  let target = [];
   for (let ix = 0; ix < dim; ix++) {
     const start = ix * dim;
     const end = start + dim;
-    const row = flat.slice(start, end);
+    const row = puzzleFlat.slice(start, end);
     target[ix] = row;
   }
   return target;
