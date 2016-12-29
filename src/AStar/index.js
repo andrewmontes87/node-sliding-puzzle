@@ -1,3 +1,7 @@
+
+import Node from './AStarNode';
+import AStar from './AStar';
+
 // we want to do this:
 // - convert posted string back into a 2-D array
 // - use Math.sqrt(arr.length) to find dim
