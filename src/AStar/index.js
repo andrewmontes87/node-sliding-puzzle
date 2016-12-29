@@ -14,18 +14,22 @@ import AStar from './AStar';
 // const astar = new AStar(init, goal, 0);
 // - return astar.path
 
-export function getPuzzleJSON(puzzle) {
-  const puzzleBoard = formatStringInputAs2DMatrix(puzzle);
-  const dim = puzzleBoard.length;
-  const empty = findEmptyPiece(puzzleBoard, dim);
-  const solutionBoard = buildSolutionMatrix(dim);
+export function getPuzzleJSON(puzzleString) {
+  const dim = findDimensions(puzzleString);
+  if (!validateDimensions(dim)) {
+    return 'error: pls submit a properly formatted 3x3, 4x4, or 5x5 puzzle';
+  } else {
+    const puzzleBoard = formatStringInputAs2DMatrix(puzzleString);
+    const empty = findEmptyPiece(puzzleBoard, dim);
+    const solutionBoard = buildSolutionMatrix(dim);
 
-  const init = new Node(0, puzzleBoard, empty[0], empty[1], 0);
-  const goal = new Node(0, solutionBoard, dim - 1, dim - 1, 0);
+    const init = new Node(0, puzzleBoard, empty[0], empty[1], 0);
+    const goal = new Node(0, solutionBoard, dim - 1, dim - 1, 0);
 
-  const astar = new AStar(init, goal, 0);
+    const astar = new AStar(init, goal, 0);
 
-  return astar.path;  
+    return astar.path;      
+  }
 }
 
 
@@ -56,21 +60,25 @@ function findEmptyPiece(data, dim) {
   return null;
 }
 
-// find the dimensions of a submitted puzzle
-function findDimensions(data) {
-  const result = Math.sqrt(data.length)
-  // only allow three sizes for now
-  if (result === 3 || result === 4 || result === 5) {
+// only allow three sizes for now
+function validateDimensions(dim) {
+  if (dim === 3 || dim === 4 || dim === 5) {
     return result;
   } else {
-    return 'error: pls submit a properly formatted 3x3, 4x4, or 5x5 puzzle';
+    return null;
   }
 }
 
-// helper to format posted puzzle string
-function formatStringInputAs2DMatrix(puzzleString) {
+// find the dimensions of a submitted puzzle
+function findDimensions(puzzleString) {
   const flat = puzzleString.split(',')
-  const dim = findDimensions(flat);
+  const result = Math.sqrt(flat.length);
+  return validateDimensions(result);
+}
+
+// helper to format posted puzzle string
+function formatStringInputAs2DMatrix(puzzleString, dim) {
+  const flat = puzzleString.split(',')
   let target = [];
 
   for (let ix = 0; ix < dim; ix++) {
