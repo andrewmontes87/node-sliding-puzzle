@@ -63,7 +63,7 @@ function findEmptyPiece(data, dim) {
 // only allow three sizes for now
 function validateDimensions(dim) {
   if (dim === 3 || dim === 4 || dim === 5) {
-    return result;
+    return dim;
   } else {
     return null;
   }
