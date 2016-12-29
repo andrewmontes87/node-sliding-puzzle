@@ -16,7 +16,7 @@ export function getPuzzleJSON(puzzle) {
   const empty = findEmptyPiece(puzzleBoard, dim);
   const solutionBoard = buildSolutionMatrix(dim);
 
-  const init = nASew Node(0, puzzleBoard, empty[0], empty[1], 0);
+  const init = new Node(0, puzzleBoard, empty[0], empty[1], 0);
   const goal = new Node(0, solutionBoard, dim - 1, dim - 1, 0);
 
   const astar = new AStar(init, goal, 0);
