@@ -8,26 +8,67 @@ A web service to solve sliding puzzle problems.
 Implementation of the A* algorithm is based on [this blog post](https://www.smashingmagazine.com/2016/02/javascript-ai-html-sliding-tiles-puzzle/) by Arnaldo Perez Castano.
 
 The webservice accepts input as a CSV string, where a puzzle:
-`[[1,2,3],[4,5,6],[7,8,0]]`
-is submitted as:
-`"1,2,3,4,5,6,7,8,0"`
 
-Results are returned as a string, to be interpreted as instructions to solve the puzzle.
-`LLDRRULD` 
-See react-sliding-puzzle for how to translate the solution string to board movements.
+```[[4,3,1],[5,0,2],[7,8,6]]```
+
+is submitted as:
+
+```"4,3,1,5,0,2,7,8,6"```
+
+
+Results are returned as JSON:
+
+```
+{
+  "puzzle": "4,3,1,5,0,2,7,8,6",
+  "solution": "URDLLURRDD",
+  "time": 35,
+  "depth": 10,
+  "size": 3
+}
+```
+
+`solution` string should be interpreted as which pieces to move relative to the empty space in order to make the puzzle match the solved configuration. See [react-sliding-puzzle](https://github.com/andrewmontes87/react-sliding-puzzle) for implementation.
+
+
+## Development
+
+```
+$ npm install
+$ npm start
+```
+
+The app will be available at http://localhost:3000
+
 
 
 ## Play with it
 
 Requires python 2.7 and virtualenv.
 
+Set up the virtualenv and install required packages:
+
 ```
-source venv/bin/activate
-cd notebooks && jupyter notebook
+$ virtualenv venv
+$ pip install -r requirements.txt
+```
+
+Activate the virtualenv:
+
+```
+$ source venv/bin/activate
+$ cd notebooks && jupyter notebook
 ```
 
 Use your web browser to open the "requesting node-sliding-puzzle" notebook.
 Change parameters and run the cell to see results.
+
+When finished, deactivate the virtualenv:
+
+```
+$ deactivate
+```
+
 
 
 ## Deploy
