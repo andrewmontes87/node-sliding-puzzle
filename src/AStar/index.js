@@ -14,23 +14,38 @@ import AStar from './AStar';
 // const astar = new AStar(init, goal, 0);
 // - return astar.path
 
+const defaultErrorMsg = 'pls submit a properly formatted 3x3 puzzle';
+
 export function getPuzzleJSON(puzzleString) {
-  const puzzleFlat = formatStringInputAs1DMatrix(puzzleString);
-  const dim = findDimensions(puzzleFlat);
-  if (!validateDimensions(dim)) {
-    return 'error: pls submit a properly formatted 3x3, 4x4, or 5x5 puzzle';
-  } else {
-    const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
-    const empty = findEmptyPiece(puzzleBoard, dim);
-    const solutionBoard = buildSolutionMatrix(dim);
+  const puzzleFlat = validateInputAsFlatList(puzzleString);
 
-    const init = new Node(0, puzzleBoard, empty[0], empty[1], 0);
-    const goal = new Node(0, solutionBoard, dim - 1, dim - 1, 0);
+  if (!puzzleFlat) return { error: defaultErrorMsg + ': failed at !puzzleFlat' };
 
-    const astar = new AStar(init, goal, 0);
+  const dim = findAndValidateDimensions(puzzleFlat);
 
-    return astar.path;      
-  }
+  if (!dim) return { error: defaultErrorMsg + ': failed at !dim' };
+
+  const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
+  const empty = findEmptyPiece(puzzleBoard, dim);
+  const solutionBoard = buildSolutionMatrix(dim);
+
+  const init = new Node(0, puzzleBoard, empty[0], empty[1], 0);
+  const goal = new Node(0, solutionBoard, dim - 1, dim - 1, 0);
+
+  const startTime = new Date();
+
+  const astar = new AStar(init, goal, 0);
+
+  const endTime = new Date();
+  const elapsedTime = endTime - startTime;
+
+  return {
+    puzzle: puzzleString,
+    solution: astar.path,
+    time: elapsedTime,
+    depth: astar.depth,
+    size: astar.size
+  };      
 }
 
 
@@ -63,7 +78,7 @@ function findEmptyPiece(data, dim) {
 
 // only allow three sizes for now
 function validateDimensions(dim) {
-  if (dim === 3 || dim === 4 || dim === 5) {
+  if (dim === 3) {
     return dim;
   } else {
     return null;
@@ -71,15 +86,43 @@ function validateDimensions(dim) {
 }
 
 // find the dimensions of a submitted puzzle
-function findDimensions(puzzleFlat) {
+function findAndValidateDimensions(puzzleFlat) {
   const result = Math.sqrt(puzzleFlat.length);
   return validateDimensions(result);
 }
 
-function formatStringInputAs1DMatrix(puzzleString) {
-  return puzzleString.split(',').map( (item) => {
+// make sure the input string is valid
+// and shape it as a flat list
+function validateInputAsFlatList(puzzleString) {
+  // convert string to list of ints
+  const puzzleFlat = puzzleString.split(',').map( (item) => {
     return parseInt(item);
   });
+
+  // check if all the returned elements are integers
+  const allIntegers = puzzleFlat.every( (element, index, array) => {
+    return Number.isInteger(element);
+  });
+  if (!allIntegers) return null;
+
+  // check if it's the correct integers
+  // first create a flat list of correct ints
+  const goalFlat = [];
+  for (let ix = 0; ix < puzzleFlat.length; ix++) {
+    goalFlat.push(ix);
+  }
+  // then clone and sort the flat puzzle list
+  const cloneFlat = JSON.parse(JSON.stringify(puzzleFlat));
+  cloneFlat.sort( (ax, bx) => {
+    return ax - bx;
+  });
+  // then check if the two flat lists match
+  const validIntegers = cloneFlat.toString() == goalFlat.toString();
+  // if not, we don't have the same set of ints
+  // and will never be able to find a path between puzzle and goal
+  if (!validIntegers) return null;
+
+  return puzzleFlat;
 }
 
 // helper to format posted puzzle string
