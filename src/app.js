@@ -1,6 +1,6 @@
 import express from 'express';
 import { getPuzzleJSON } from './AStar'; 
-var url = require('url');
+import url from 'url';
 
 export const app = express();
  
@@ -12,10 +12,3 @@ app.get('/api/v1/puzzle/', (request, response) => {
     response.json(getPuzzleJSON(puzzleParam));
   }
 });
- 
-// // microservice path
-// app.get('/:puzzle', (request, response) => {
-//   const puzzle = request.params.puzzle;
-
-// });
-

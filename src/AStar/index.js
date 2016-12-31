@@ -14,16 +14,15 @@ import AStar from './AStar';
 // const astar = new AStar(init, goal, 0);
 // - return astar.path
 
-const defaultErrorMsg = 'pls submit a properly formatted puzzle';
 
 export function getPuzzleJSON(puzzleString) {
   const puzzleFlat = validateInputAsFlatList(puzzleString);
 
-  if (!puzzleFlat) return { error: defaultErrorMsg + ': input must be a comma-separated string of integers  0-8' };
+  if (!puzzleFlat) return { error: 'input must be a comma-separated string of integers 0-8' };
 
   const dim = findAndValidateDimensions(puzzleFlat);
 
-  if (!dim) return { error: defaultErrorMsg + ': puzzle must have dimensions of 3x3, consisting of the integers 0-8' };
+  if (!dim) return { error: 'puzzle must have dimensions of 3x3, consisting of the integers 0-8' };
 
   const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
   const empty = findEmptyPiece(puzzleBoard, dim);
@@ -76,19 +75,15 @@ function findEmptyPiece(data, dim) {
   return null;
 }
 
-// only allow three sizes for now
-function validateDimensions(dim) {
+
+// find the dimensions of a submitted puzzle
+function findAndValidateDimensions(puzzleFlat) {
+  const dim = Math.sqrt(puzzleFlat.length);
   if (dim === 3) {
     return dim;
   } else {
     return null;
   }
-}
-
-// find the dimensions of a submitted puzzle
-function findAndValidateDimensions(puzzleFlat) {
-  const result = Math.sqrt(puzzleFlat.length);
-  return validateDimensions(result);
 }
 
 // make sure the input string is valid
