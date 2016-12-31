@@ -9,11 +9,15 @@ Implementation of the A* algorithm is based on [this blog post](https://www.smas
 
 The webservice accepts input as a CSV string, where a puzzle:
 
-```[[4,3,1],[5,0,2],[7,8,6]]```
+```
+[[4,3,1],[5,0,2],[7,8,6]]
+```
 
 is submitted as:
 
-```"4,3,1,5,0,2,7,8,6"```
+```
+"4,3,1,5,0,2,7,8,6"
+```
 
 
 Results are returned as JSON:
