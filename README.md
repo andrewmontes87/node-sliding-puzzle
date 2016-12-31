@@ -7,10 +7,12 @@ A web service to solve sliding puzzle problems.
 
 Implementation of the A* algorithm is based on [this blog post](https://www.smashingmagazine.com/2016/02/javascript-ai-html-sliding-tiles-puzzle/) by Arnaldo Perez Castano.
 
-The webservice accepts input as a CSV string, where a puzzle:
+The webservice accepts input as a CSV string, where a puzzle structured as a 2D matrix:
 
 ```
-[[4,3,1],[5,0,2],[7,8,6]]
+[[4,3,1],
+ [5,0,2],
+ [7,8,6]]
 ```
 
 is submitted as:
@@ -19,6 +21,11 @@ is submitted as:
 "4,3,1,5,0,2,7,8,6"
 ```
 
+The puzzle string is submitted as the `p` parameter using a GET request:
+
+```
+/api/v1/puzzle?p=4,3,1,5,0,2,7,8,6
+```
 
 Results are returned as JSON:
 
