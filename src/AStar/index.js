@@ -14,16 +14,16 @@ import AStar from './AStar';
 // const astar = new AStar(init, goal, 0);
 // - return astar.path
 
-const defaultErrorMsg = 'pls submit a properly formatted 3x3 puzzle';
+const defaultErrorMsg = 'pls submit a properly formatted puzzle';
 
 export function getPuzzleJSON(puzzleString) {
   const puzzleFlat = validateInputAsFlatList(puzzleString);
 
-  if (!puzzleFlat) return { error: defaultErrorMsg + ': failed at !puzzleFlat' };
+  if (!puzzleFlat) return { error: defaultErrorMsg + ': input must be a comma-separated string of integers  0-8' };
 
   const dim = findAndValidateDimensions(puzzleFlat);
 
-  if (!dim) return { error: defaultErrorMsg + ': failed at !dim' };
+  if (!dim) return { error: defaultErrorMsg + ': puzzle must have dimensions of 3x3, consisting of the integers 0-8' };
 
   const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
   const empty = findEmptyPiece(puzzleBoard, dim);
