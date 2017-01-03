@@ -107,7 +107,7 @@ function AStar(initial, goal, empty) {
   // the heuristic is an essential component of the search
   // its cleverness can drastically reduce the time complexity of the algorithm
   this.heuristic = (node) => {
-    return this.manhattanDistance(node) + this.linearConflicts(node);
+    return this.manhattanDistance(node);
   };
 
   // the misplaced tiles heuristic, probably the simplest, most common heuristic for this puzzle
