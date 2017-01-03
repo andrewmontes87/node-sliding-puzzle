@@ -13,7 +13,7 @@ function clone(item) {
   return JSON.parse(JSON.stringify(item));
 }
 
-function contains(arr, input) {
+function arrContains(arr, input) {
   for (let ix = 0; ix < arr.length; ix++) {
     if (arr[ix] === input) {
       return true;
@@ -32,7 +32,6 @@ function AStar(initial, goal, empty) {
     const row = node.emptyRow;
     let newNode = '';
 
-    // console.log(node);
 
     // Up
     // each block defines a possible direction around the empty space
@@ -46,7 +45,7 @@ function AStar(initial, goal, empty) {
       newState[row][col] = temp;
       newNode = new Node(0, newState, row - 1, col, node.depth + 1);
       // if the node’s state is not in the visited hashset
-      if (!contains(this.visited, newNode.strRepresentation)) {
+      if (!this.visited.contains(newNode.strRepresentation)) {
         // calculate the value of the node (f = g + h)
         newNode.value = newNode.depth + this.heuristic(newNode);
         // amd add the corresponding direction to the path variable
@@ -65,7 +64,7 @@ function AStar(initial, goal, empty) {
       newState[row + 1][col] = this.empty;
       newState[row][col] = temp;
       newNode = new Node(0, newState, row + 1, col, node.depth + 1);
-      if (!contains(this.visited, newNode.strRepresentation)) {
+      if (!this.visited.contains(newNode.strRepresentation)) {
         newNode.value = newNode.depth + this.heuristic(newNode);
         newNode.path = node.path + 'D';
         this.queue.queue(newNode);
@@ -80,7 +79,7 @@ function AStar(initial, goal, empty) {
       newState[row][col - 1] = this.empty;
       newState[row][col] = temp;
       newNode = new Node(0, newState, row, col - 1, node.depth + 1);
-      if (!contains(this.visited, newNode.strRepresentation)) {
+      if (!this.visited.contains(newNode.strRepresentation)) {
         newNode.value = newNode.depth + this.heuristic(newNode);
         newNode.path = node.path + 'L';
         this.queue.queue(newNode);
@@ -95,7 +94,7 @@ function AStar(initial, goal, empty) {
       newState[row][col + 1] = this.empty;
       newState[row][col] = temp;
       newNode = new Node(0, newState, row, col + 1, node.depth + 1);
-      if (!contains(this.visited, newNode.strRepresentation)) {
+      if (!this.visited.contains(newNode.strRepresentation)) {
         newNode.value = newNode.depth + this.heuristic(newNode);
         newNode.path = node.path + 'R';
         this.queue.queue(newNode);
@@ -107,7 +106,7 @@ function AStar(initial, goal, empty) {
   // the heuristic is an essential component of the search
   // its cleverness can drastically reduce the time complexity of the algorithm
   this.heuristic = (node) => {
-    return this.manhattanDistance(node);
+    return this.manhattanDistance(node) + this.linearConflicts(node);
   };
 
   // the misplaced tiles heuristic, probably the simplest, most common heuristic for this puzzle
@@ -179,8 +178,8 @@ function AStar(initial, goal, empty) {
     let result = 0;
     const tilesRelated = new Array();
     // loop foreach pair of elements in the row/column
-    for (let hx = 0; hx < state.length - 1 && !contains(tilesRelated, hx); hx++) {
-      for (let kx = hx + 1; kx < state.length && !contains(tilesRelated, hx); kx++) {
+    for (let hx = 0; hx < state.length - 1 && !arrContains(tilesRelated, hx); hx++) {
+      for (let kx = hx + 1; kx < state.length && !arrContains(tilesRelated, hx); kx++) {
         const moves = dimension === 1
             ? this.inConflict(ix, state[ix][hx], state[ix][kx], hx, kx, dimension)
             : this.inConflict(ix, state[hx][ix], state[kx][ix], hx, kx, dimension);
