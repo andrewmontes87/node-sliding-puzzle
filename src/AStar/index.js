@@ -18,11 +18,13 @@ import AStar from './AStar';
 export function getPuzzleJSON(puzzleString) {
   const puzzleFlat = validateInputAsFlatList(puzzleString);
 
-  if (!puzzleFlat) return { error: 'input must be a comma-separated string of integers 0-8 or 0-15' };
+  if (!puzzleFlat) return { error: 'input must be a comma-separated string of integers 0-8' };  
+  //  or 0-15
 
   const dim = findAndValidateDimensions(puzzleFlat);
 
-  if (!dim) return { error: 'puzzle must have dimensions of 3x3 of 4x4, consisting of the integers 0-8 or 0-15' };
+  if (!dim) return { error: 'puzzle must have dimensions of 3x3, consisting of the integers 0-8' }; 
+  //  of 4x4  or 0-15
 
   const puzzleBoard = formatStringInputAs2DMatrix(puzzleFlat, dim);
   const empty = findEmptyPiece(puzzleBoard, dim);
@@ -79,7 +81,7 @@ function findEmptyPiece(data, dim) {
 // find the dimensions of a submitted puzzle
 function findAndValidateDimensions(puzzleFlat) {
   const dim = Math.sqrt(puzzleFlat.length);
-  if (dim === 3 || dim === 4) {
+  if (dim === 3) {  // turning off  || dim === 4 for now because too slow
     return dim;
   } else {
     return null;
