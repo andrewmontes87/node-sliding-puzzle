@@ -92,5 +92,11 @@ Run deploy
 
 `$ npm run-script deploy`
 
+Ssh into AWS server
 
-http://node-sliding-puzzle.herokuapp.com/
+`$ ssh -i ~/.ssh/<ssh-key.pem> <user>@<host>`
+
+If needed:
+
+`$ sudo service nginx restart`
+
