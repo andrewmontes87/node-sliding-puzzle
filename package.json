@@ -1,5 +1,5 @@
 {
-  "name": "node-puzzle",
+  "name": "node-sliding-puzzle",
   "version": "0.2.0",
   "description": "API that provides sliding puzzle solutions",
   "main": "index.js",
