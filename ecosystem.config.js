@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'node-sliding-puzzle',
-    script: 'index.js'
+    script: './index.js'
   }],
   deploy: {
     production: {
