@@ -84,6 +84,13 @@ $ deactivate
 
 ## Deploy
 
-`git push heroku master`
+Push to master branch
+
+`$ git push`
+
+Run deploy
+
+`$ npm run-script deploy`
+
 
 http://node-sliding-puzzle.herokuapp.com/
