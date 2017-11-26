@@ -1,6 +1,6 @@
 # node-sliding-puzzle
 
-A web service to solve sliding puzzle problems.
+A web service to solve sliding puzzle problems. Test.
 
 
 ## How it works
